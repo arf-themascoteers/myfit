@@ -21,20 +21,26 @@ def optimise(x, y, m1, b1, m2, b2):
         loss_dist1 = dist1 ** 2
         loss_dist2 = dist2 ** 2
 
-        loss = loss + loss_dist1 + loss_dist2
+        impact1 = 0.8
+        impact2 = 0.2
 
-        if loss_dist1 < loss_dist2:
-            grad_dist1 = 2 * dist1
-            grad_m1_for_this = grad_dist1 * x[i]
-            grad_b1_for_this = grad_dist1
-            grad_m1 = grad_m1 + grad_m1_for_this
-            grad_b1 = grad_b1 + grad_b1_for_this
-        else:
-            grad_dist2 = 2 * dist2
-            grad_m2_for_this = grad_dist2 * x[i]
-            grad_b2_for_this = grad_dist2
-            grad_m2 = grad_m2 + grad_m2_for_this
-            grad_b2 = grad_b2 + grad_b2_for_this
+        if loss_dist1 > loss_dist2:
+            impact1 = 0.2
+            impact2 = 0.8
+
+        grad_dist1 = 2 * dist1 * impact1
+        grad_m1_for_this = grad_dist1 * x[i]
+        grad_b1_for_this = grad_dist1
+        grad_m1 = grad_m1 + grad_m1_for_this
+        grad_b1 = grad_b1 + grad_b1_for_this
+
+        grad_dist2 = 2 * dist2 * impact2
+        grad_m2_for_this = grad_dist2 * x[i]
+        grad_b2_for_this = grad_dist2
+        grad_m2 = grad_m2 + grad_m2_for_this
+        grad_b2 = grad_b2 + grad_b2_for_this
+
+        loss = loss + loss_dist1 + loss_dist2
 
     descent_grad_m1 = lr * grad_m1
     descent_grad_b1 = lr * grad_b1
