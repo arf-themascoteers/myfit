@@ -18,8 +18,8 @@ def optimise(x, y, m1, b1, m2, b2):
         dist1 = m1*x[i] - y[i] + b1
         dist2 = m2*x[i] - y[i] + b2
 
-        loss_dist1 = dist1 ** 2
-        loss_dist2 = dist2 ** 2
+        loss_dist1 = np.abs(dist1)
+        loss_dist2 = np.abs(dist2)
 
         impact1 = 0.8
         impact2 = 0.2
@@ -28,13 +28,13 @@ def optimise(x, y, m1, b1, m2, b2):
             impact1 = 0.2
             impact2 = 0.8
 
-        grad_dist1 = 2 * dist1 * impact1
+        grad_dist1 = abs(dist1)/dist1 * impact1
         grad_m1_for_this = grad_dist1 * x[i]
         grad_b1_for_this = grad_dist1
         grad_m1 = grad_m1 + grad_m1_for_this
         grad_b1 = grad_b1 + grad_b1_for_this
 
-        grad_dist2 = 2 * dist2 * impact2
+        grad_dist2 = abs(dist2)/dist2 * impact2
         grad_m2_for_this = grad_dist2 * x[i]
         grad_b2_for_this = grad_dist2
         grad_m2 = grad_m2 + grad_m2_for_this
@@ -81,7 +81,7 @@ def fit_lines(all_x, all_y, ax1, ax2):
     ax2.scatter(x,y1, s=5, c="purple")
     ax2.scatter(x,y2, s=5, c="red")
 
-np.random.seed(2)
+np.random.seed(11)
 
 m1 = np.random.random()
 b1 = np.random.random()
